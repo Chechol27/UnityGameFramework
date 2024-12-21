@@ -6,7 +6,7 @@ namespace Game.Delivery
 {
     /// <summary>
     /// Game information holder for all things related to the game logic
-    /// Helps locating game subsystems (services) that need static access
+    /// Helps with locating game subsystems (services) that need static access
     /// </summary>
     public class Game : MonoBehaviour, IServiceLocator
     {
