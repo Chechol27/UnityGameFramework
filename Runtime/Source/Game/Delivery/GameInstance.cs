@@ -2,15 +2,15 @@ using System.Collections.Generic;
 using Services.Core;
 using UnityEngine;
 
-namespace Game.Delivery
+namespace UnityGameFramework.Game
 {
     /// <summary>
     /// Game information holder for all things related to the game logic
     /// Helps with locating game subsystems (services) that need static access
     /// </summary>
-    public class Game : MonoBehaviour, IServiceLocator
+    public class GameInstance : MonoBehaviour, IServiceLocator
     {
-        public static Game Instance { get; private set; }
+        public static GameInstance Main { get; private set; }
         
         public List<INativeService> ServiceCollection { get; } = new List<INativeService>();
         public List<IManagedService> ManagedServiceCollection { get; } = new List<IManagedService>();
@@ -28,13 +28,13 @@ namespace Game.Delivery
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static void InitializeGameInstance()
         {
-            if (Instance != null)
+            if (Main != null)
             {
                 Debug.LogError("WTF?, how did a previous game instance leak? ._.");
             }
             GameObject gameObjectGo = new GameObject("GameInstance");
             DontDestroyOnLoad(gameObjectGo);
-            Instance = gameObjectGo.AddComponent<Game>();
+            Main = gameObjectGo.AddComponent<GameInstance>();
             Debug.Log("Game Instance Initialized");
         }
     }

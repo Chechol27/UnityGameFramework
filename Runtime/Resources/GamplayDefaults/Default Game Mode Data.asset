@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c50b2b1e6a6a6104a88ed104e9920371, type: 3}
   m_Name: Default Game Mode Data
   m_EditorClassIdentifier: 
-  defaultPawn: {fileID: 1673528067230512271, guid: 97a23286bee4bc6419724db75bcab890, type: 3}
-  playerController: {fileID: 1800155088005828827, guid: edb83a5a519982f48bc211c55259d79f, type: 3}
+  defaultPawnPrefab: {fileID: 2501475308187006937, guid: 97a23286bee4bc6419724db75bcab890, type: 3}
+  playerController: {fileID: 2181390149704699431, guid: edb83a5a519982f48bc211c55259d79f, type: 3}

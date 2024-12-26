@@ -1,56 +1,69 @@
+using System;
 using System.Collections.Generic;
+using Services.Core;
 using UnityEngine;
+using UnityGameFramework.Pawns.Core;
+using UnityGameFramework.Player.Core;
 
-namespace Game.State.Core
+namespace UnityGameFramework.Game.State.Core
 {
     /// <summary>
-    /// Per-level Game "Initializer" reads data and spawns the necessary initial actors into the game
-    /// also manages match lifecycle 
+    /// Per-level Game match manager:
+    /// Reads data and spawns the necessary initial actors into the game
+    /// Manages match lifecycle 
     /// </summary>
-    public class GameMatch<TGameMode, TGameState, TPlayerState> : MonoBehaviour, IManagedService
-        where TGameMode : GameMode
-        where TGameState : GameState
-        where TPlayerState : PlayerState
-
+    public abstract class GameMatch: MonoBehaviour, IManagedService
     {
-        protected virtual TGameMode GameMode { get; set; }
-        protected TGameState State;
-        protected readonly List<TPlayerState> PlayerStates = new List<TPlayerState>();
-        #warning TODO Implement Player controllers and pawns
-        protected readonly List<GameObject> PlayerControllers = new List<GameObject>();
+        [field:SerializeField]protected GameMode GameMode { get; set; }
+        public List<Controller> Players { get; private set; } = new List<Controller>();
 
-        void PurgePreviousStateIfPresent()
+        public virtual void PlayerJoin(Controller playerPrefab)
         {
-            if (State != null)
+            int playerId = Players.Count;
+            Controller player = Instantiate(playerPrefab);
+            player.gameObject.name = $"Player {playerId}";
+            Players.Add(player);
+        }
+
+        public virtual Pawn SpawnPlayer(int playerId, Pawn pawnPrefab = null, bool ditchPreviousControlledPawn = true)
+        {
+            try
             {
-                Destroy(State);
-                Debug.LogError("Game State already present in game, beware of memory leaks and early game finalization/late initialization");
+                pawnPrefab = pawnPrefab == null ? GameMode.defaultPawnPrefab : pawnPrefab;
+                Controller desiredController = Players[playerId];
+                Pawn pawn = Instantiate(pawnPrefab);
+                desiredController.Control(pawn, ditchPreviousControlledPawn);
+                return pawn;
             }
-            
-            if (PlayerStates.Count > 0)
+            catch (IndexOutOfRangeException outOfRangeException)
             {
-                foreach (TPlayerState state in PlayerStates)
-                {
-                    Destroy(state);
-                }
-                PlayerStates.Clear();                
-                Debug.LogError("Player States already present in game, beware of memory leaks and early game finalization/late game initialization");
+                Debug.LogError($"Player #{playerId} is invalid");
+            }
+            //desired controller may be null or even the pawn to instantiate, let unity handle those exceptions
+            return null;
+        }
+
+        public virtual void PlayerRemove(int playerId)
+        {
+            try
+            {
+                Pawn pawn = Players[playerId].ControlledPawn;
+                Players[playerId].Release();
+                Destroy(pawn);
+            }
+            catch (IndexOutOfRangeException outOfRangeException)
+            {
+                Debug.LogError($"Player #{playerId} is invalid");
             }
         }
-        
-        protected void InitializeMatch(int playerCount)
+
+        public virtual void PlayerLeave(int playerId)
         {
-            PurgePreviousStateIfPresent();
-            GameObject gameStateGo = new GameObject("Game State");
-            State = gameStateGo.AddComponent<TGameState>();
-            GameObject playerStateGo = new GameObject("Player 0 State");
-            PlayerStates.Add(playerStateGo.AddComponent<TPlayerState>());
-            for (int i = 0; i < playerCount; i++)
-            {
-                GameObject playerGo = Instantiate(GameMode.playerController);
-                playerGo.name = $"Player_{i}";
-                PlayerControllers.Add(playerGo);
-            }
+            
+        }
+        
+        protected virtual void InitializeMatch()
+        {
         }
 
         protected virtual void StartMatch()
@@ -60,5 +73,12 @@ namespace Game.State.Core
         protected virtual void EndMatch()
         {
         }
+
+        protected void Awake()
+        {
+            InitializeMatch();
+        }
+
+        public bool IsPersistent => false;
     }
 }

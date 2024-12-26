@@ -1,6 +1,8 @@
 using UnityEngine;
+using UnityGameFramework.Pawns.Core;
+using UnityGameFramework.Player.Core;
 
-namespace Game.State.Core
+namespace UnityGameFramework.Game.State.Core
 {
     /// <summary>
     /// Base class for game modes, defines all data needed for the game rules to be executed and enforced correctly
@@ -8,10 +10,7 @@ namespace Game.State.Core
     [CreateAssetMenu(menuName = "Gameplay/GameModeData")]
     public class GameMode : ScriptableObject
     {
-#warning TODO: implement nice coupling with pawns
-        public GameObject defaultPawn;
-
-#warning TODO: implement nice coupling with player controllers
-        public GameObject playerController;
+        public Pawn defaultPawnPrefab;
+        public Controller playerController;
     }
 }
