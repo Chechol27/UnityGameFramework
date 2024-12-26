@@ -8,6 +8,8 @@ namespace UnityGameFramework.Pawns.Core
     {
         protected PlayerInput Input => GetComponent<PlayerInput>();
 
+        public abstract void ResetState();
+        
         public virtual void OnControlled()
         {
             Input.enabled = true;

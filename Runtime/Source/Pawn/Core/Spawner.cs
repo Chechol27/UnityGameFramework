@@ -30,5 +30,6 @@ namespace UnityGameFramework.Pawns.Core
         }
 
         public bool IsPersistent => false;
+        public virtual Matrix4x4 GetWorldPositioning => transform.localToWorldMatrix;
     }
 }

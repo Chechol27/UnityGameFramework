@@ -31,9 +31,14 @@ namespace UnityGameFramework.Game.State.Core
             {
                 pawnPrefab = pawnPrefab == null ? GameMode.defaultPawnPrefab : pawnPrefab;
                 Controller desiredController = Players[playerId];
-                Pawn pawn = Instantiate(pawnPrefab);
+                Spawner spawner = GameInstance.Main.GetManagedSubSystem<Spawner>(false);
+                Matrix4x4 spawnTransform = Matrix4x4.identity;
+                if (spawner != null)
+                {
+                    spawnTransform = spawner.GetWorldPositioning;
+                }
+                Pawn pawn = Instantiate(pawnPrefab, spawnTransform.GetPosition(),spawnTransform.rotation);
                 desiredController.Control(pawn, ditchPreviousControlledPawn);
-                GameInstance.Main.GetManagedSubSystem<Spawner>(false)?.SetPawnWorldPositioning(pawn);
                 return pawn;
             }
             catch (IndexOutOfRangeException outOfRangeException)
