@@ -5,7 +5,7 @@ using UnityGameFramework.Pawns.Core;
 namespace UnityGameFramework.Pawns
 {
     [RequireComponent(typeof(PlayerInput))]
-    public class SpectatorPawn : Pawn
+    public class SandboxPawn : Pawn
     {
         
     }

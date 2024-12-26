@@ -26,7 +26,7 @@ namespace Services.Core
             }
         }
 
-        TManagedService GetManagedService<TManagedService>() where TManagedService : Component, IManagedService
+        TManagedService GetManagedService<TManagedService>(bool createIfNotPresent = true) where TManagedService : Component, IManagedService
         {
             try
             {
@@ -34,9 +34,20 @@ namespace Services.Core
             }
             catch (InvalidOperationException)
             {
+                TManagedService t = Object.FindFirstObjectByType<TManagedService>();
+                if (t != null)
+                {
+                    ManagedServiceCollection.Add(t);
+                    return t;
+                }
+
+                if (!createIfNotPresent)
+                {
+                    return null;
+                }
                 GameObject managedServiceGo = new GameObject($"{typeof(TManagedService).Name}");
                 Object.DontDestroyOnLoad(managedServiceGo);
-                TManagedService t = managedServiceGo.AddComponent<TManagedService>();
+                t = managedServiceGo.AddComponent<TManagedService>();
                 ManagedServiceCollection.Add(t);
                 return t;
             }

@@ -10,7 +10,6 @@ namespace Game.State
     /// </summary>
     public class SandboxMatch: GameMatch, IPlayerStateHandler<SandboxPlayerState>
     {
-        public List<Controller> Players { get; private set; } = new List<Controller>();
         public List<SandboxPlayerState> PlayerStates { get; private set; } = new List<SandboxPlayerState>();
 
         public IPlayerStateHandler<SandboxPlayerState> AsPlayerStateHandler => this;

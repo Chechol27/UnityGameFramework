@@ -33,6 +33,7 @@ namespace UnityGameFramework.Game.State.Core
                 Controller desiredController = Players[playerId];
                 Pawn pawn = Instantiate(pawnPrefab);
                 desiredController.Control(pawn, ditchPreviousControlledPawn);
+                GameInstance.Main.GetManagedSubSystem<Spawner>(false)?.SetPawnWorldPositioning(pawn);
                 return pawn;
             }
             catch (IndexOutOfRangeException outOfRangeException)
@@ -59,7 +60,6 @@ namespace UnityGameFramework.Game.State.Core
 
         public virtual void PlayerLeave(int playerId)
         {
-            
         }
         
         protected virtual void InitializeMatch()
