@@ -25,3 +25,7 @@ git clone https://github.com/Chechol27/UnityGameFramework.git
 3. Put this repository's link in the prompt and hit `install`
 
 ![img.png](./Documentation/Assets/PackageManagerInstallGit.png)
+
+## Usage Guide
+
+for a usage guide, [here](./Documentation/Wiki/QuickStart.md) is an example of this framework used in a pong game
