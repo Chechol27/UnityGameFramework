@@ -1,21 +1,23 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityGameFramework.Pawns.Core;
 
 namespace UnityGameFramework.Samples.Pong
 {
     public class PongPawn : Pawn
     {
-        private Vector3 startPosition;
+        private Vector3 spawnPosition;
         
         public override void ResetState()
         {
-            transform.position = startPosition;
+            transform.position = spawnPosition;
         }
 
-        private void Awake()
+        protected override void Awake()
         {
-            startPosition = transform.position;
+            base.Awake();
+            spawnPosition = transform.position;
         }
+
+        public Vector3 SpawnPosition => spawnPosition;
     }
 }

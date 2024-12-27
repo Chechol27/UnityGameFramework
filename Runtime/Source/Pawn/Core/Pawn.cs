@@ -1,17 +1,29 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityGameFramework.Player.Core;
 
 namespace UnityGameFramework.Pawns.Core
 {
+    [DefaultExecutionOrder(-2)]
+    [RequireComponent(typeof(PlayerInput))]
     public abstract class Pawn : MonoBehaviour
     {
-        protected PlayerInput Input => GetComponent<PlayerInput>();
+        protected Controller CurrentController;
+        public PlayerInput Input => GetComponent<PlayerInput>();
 
-        public abstract void ResetState();
-        
-        public virtual void OnControlled()
+        protected virtual void Awake()
         {
+            foreach (IPawnComponent pawnComponent in GetComponentsInChildren<IPawnComponent>())
+            {
+                pawnComponent.RegisterPawn(this);
+            }
+        }
+
+        public virtual void ResetState(){}
+        
+        public virtual void OnControlled(Controller controller)
+        {
+            CurrentController = controller;
             Input.enabled = true;
         }
 

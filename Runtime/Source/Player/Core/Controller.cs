@@ -6,6 +6,7 @@ namespace UnityGameFramework.Player.Core
 {
     public abstract class Controller : MonoBehaviour
     {
+        public int MatchId { get; set; }
         public Pawn ControlledPawn { get; protected set; }
 
         public virtual void Control(Pawn pawnToControl, bool ditchControlledPawn = true)
@@ -22,7 +23,7 @@ namespace UnityGameFramework.Player.Core
             }
 
             ControlledPawn = pawnToControl;
-            ControlledPawn.OnControlled();
+            ControlledPawn.OnControlled(this);
         }
 
         public virtual void Release()

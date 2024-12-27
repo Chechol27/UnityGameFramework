@@ -12,6 +12,7 @@ namespace UnityGameFramework.Game.State.Core
     /// Reads data and spawns the necessary initial actors into the game
     /// Manages match lifecycle 
     /// </summary>
+    [DefaultExecutionOrder(-3)]
     public abstract class GameMatch: MonoBehaviour, IManagedService
     {
         [field:SerializeField]protected GameMode GameMode { get; set; }
@@ -22,6 +23,7 @@ namespace UnityGameFramework.Game.State.Core
             int playerId = Players.Count;
             Controller player = Instantiate(playerPrefab);
             player.gameObject.name = $"Player {playerId}";
+            player.MatchId = playerId;
             Players.Add(player);
         }
 
@@ -31,7 +33,7 @@ namespace UnityGameFramework.Game.State.Core
             {
                 pawnPrefab = pawnPrefab == null ? GameMode.defaultPawnPrefab : pawnPrefab;
                 Controller desiredController = Players[playerId];
-                Spawner spawner = GameInstance.Main.GetManagedSubSystem<Spawner>(false);
+                Spawner spawner = GameInstance.Main.GetManagedSubSystem<Spawner>(false, playerId);
                 Matrix4x4 spawnTransform = Matrix4x4.identity;
                 if (spawner != null)
                 {

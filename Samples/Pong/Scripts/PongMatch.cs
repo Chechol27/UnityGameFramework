@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.Events;
 using UnityGameFramework.Game.State.Core;
 using UnityGameFramework.Pawns.Core;
@@ -31,8 +30,15 @@ namespace UnityGameFramework.Samples.Pong
 
         protected override void StartMatch()
         {
-            SpawnPlayer(0, GameMode.defaultPawnPrefab); 
-            SpawnPlayer(1, GameMode.defaultPawnPrefab);
+            Pawn player0Pawn = SpawnPlayer(0, GameMode.defaultPawnPrefab); 
+            Pawn player1Pawn = SpawnPlayer(1, GameMode.defaultPawnPrefab);
+            player0Pawn.Input.SwitchCurrentActionMap(((PongGameMode)GameMode).localPerPlayerInputMappings[0]);
+            player1Pawn.Input.SwitchCurrentActionMap(((PongGameMode)GameMode).localPerPlayerInputMappings[1]);
+        }
+
+        private void Start()
+        {
+            StartMatch();
         }
     }
 }

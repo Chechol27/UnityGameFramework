@@ -8,6 +8,7 @@ namespace Game.State
     /// <summary>
     /// Base class for matches, corresponds to a single-player "Sandbox" state where the player can move freely
     /// </summary>
+    
     public class SandboxMatch: GameMatch, IPlayerStateHandler<SandboxPlayerState>
     {
         public List<SandboxPlayerState> PlayerStates { get; private set; } = new List<SandboxPlayerState>();

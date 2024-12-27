@@ -6,7 +6,7 @@ namespace UnityGameFramework.EditorOnly
 {
     public class GameInstanceGizmoDrawer
     {
-        [DrawGizmo(GizmoType.Pickable | GizmoType.Selected | GizmoType.Active, typeof(Spawner))]
+        [DrawGizmo(GizmoType.Pickable | GizmoType.Selected | GizmoType.Active | GizmoType.NonSelected, typeof(Spawner))]
         public static void DrawGizmos(Component component, GizmoType gizmoType)
         {
             Transform transform = component.transform;
@@ -39,6 +39,10 @@ namespace UnityGameFramework.EditorOnly
             Handles.DrawWireArc(-Vector3.up, Vector3.right, Vector3.forward, 180, 0.5f, lineThickness);
             Handles.ArrowHandleCap(0, Vector3.zero, Quaternion.identity, 1, EventType.Repaint);
             Handles.matrix = handleMatrix;
+
+            int spawnerOrder = ((Spawner)component).Order;
+            string label = spawnerOrder >= 0 ? $"Player {spawnerOrder + 1}" : "All players";
+            Handles.Label(upperDiscCenter, label);
         }
     }
     public class SpawnerEditor

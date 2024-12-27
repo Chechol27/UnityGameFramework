@@ -6,8 +6,10 @@ using UnityGameFramework.Game;
 
 namespace UnityGameFramework.Pawns.Core
 {
-    public class Spawner : MonoBehaviour, IManagedService
+    public class Spawner : MonoBehaviour, IIndexedManagedService
     {
+        [SerializeField] private int playerId;
+        
         protected void AssertPawnUsability(Pawn pawnPrefab)
         {
             GameObject pawnGo = pawnPrefab.gameObject;
@@ -31,5 +33,9 @@ namespace UnityGameFramework.Pawns.Core
 
         public bool IsPersistent => false;
         public virtual Matrix4x4 GetWorldPositioning => transform.localToWorldMatrix;
+        public int Order { 
+            get => playerId;
+            set => throw new NotImplementedException("Spawners shouldn't allow for order to be modified by the game instance since they're not persistent");
+        }
     }
 }

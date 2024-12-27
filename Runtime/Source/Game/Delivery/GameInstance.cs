@@ -10,7 +10,6 @@ namespace UnityGameFramework.Game
     /// Game information holder for all things related to the game logic
     /// Helps with locating game subsystems (services) that need static access
     /// </summary>
-    [DefaultExecutionOrder(0)]
     public class GameInstance : MonoBehaviour, IServiceLocator
     {
         public static GameInstance Main { get; private set; }
@@ -23,15 +22,14 @@ namespace UnityGameFramework.Game
             return ((IServiceLocator)this).GetNativeService<TService>();
         }
 
-        public TManagedService GetManagedSubSystem<TManagedService>(bool createIfNotPreset = true) where TManagedService : Component, IManagedService
+        public TManagedService GetManagedSubSystem<TManagedService>(bool createIfNotPreset = true, int id = 0) where TManagedService : Component, IManagedService
         {
-            return ((IServiceLocator)this).GetManagedService<TManagedService>(createIfNotPreset);
+            return ((IServiceLocator)this).GetManagedService<TManagedService>(createIfNotPreset, id);
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static void InitializeGameInstance()
         {
-            Debug.LogWarning("Initializing Game Instance...");
             if (Main != null)
             {
                 Debug.LogError("WTF?, how did a previous game instance leak? ._.");

@@ -9,5 +9,6 @@ namespace UnityGameFramework.Samples.Pong
     {
         public int winScore = 8;
         public float timeLimitSeconds = 300;
+        public string[] localPerPlayerInputMappings;
     }
 }
