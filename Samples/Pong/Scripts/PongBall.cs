@@ -1,16 +1,13 @@
 using UnityEngine;
 
-public class PongBall : MonoBehaviour
+namespace UnityGameFramework.Samples.Pong
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [RequireComponent(typeof(Rigidbody))]
+    public class PongBall : MonoBehaviour
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public void StartPush()
+        {
+            
+        }
     }
 }

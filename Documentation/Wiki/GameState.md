@@ -1,4 +1,4 @@
-﻿## Game State
+﻿# Game State
 
 Now that we have de initial default data, let's start with the mutable data that represents the current state of the game,
 here we could save things that are conceptually general to the match but not necesarilly attributes of a Player's state,
@@ -21,3 +21,5 @@ public class PongGameState : GameState
 ```
 
 now we've got an object that will store the current match data.
+
+## Next up... [Player States](./PlayerState.md)

@@ -23,17 +23,19 @@ namespace UnityGameFramework.Samples.Pong
         public override Pawn SpawnPlayer(int playerId, Pawn pawnPrefab = null, bool ditchPreviousControlledPawn = true)
         {
             Pawn ret = base.SpawnPlayer(playerId, pawnPrefab, ditchPreviousControlledPawn);
-            if(ret != null)
+            if (ret != null)
+            {
+                ret.Input.SwitchCurrentActionMap(((PongGameMode)GameMode).localPerPlayerInputMappings[playerId]);
                 OnGoalScored.AddListener(ret.ResetState);
+            }
+
             return ret;
         }
 
         protected override void StartMatch()
         {
-            Pawn player0Pawn = SpawnPlayer(0, GameMode.defaultPawnPrefab); 
-            Pawn player1Pawn = SpawnPlayer(1, GameMode.defaultPawnPrefab);
-            player0Pawn.Input.SwitchCurrentActionMap(((PongGameMode)GameMode).localPerPlayerInputMappings[0]);
-            player1Pawn.Input.SwitchCurrentActionMap(((PongGameMode)GameMode).localPerPlayerInputMappings[1]);
+            SpawnPlayer(0, GameMode.defaultPawnPrefab); 
+            SpawnPlayer(1, GameMode.defaultPawnPrefab);
         }
 
         private void Start()

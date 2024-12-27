@@ -14,5 +14,10 @@ Here are the chapters that will guide you while making a _**Pong**_ clone using 
 1. [Game Mode](./GameMode.md)
 2. [Game State](./GameState.md)
 3. [Player State](./PlayerState.md)
-4. [Players and Pawns](./PlayerAndPawn.md)
+4. [Players](./Player.md)
+5. [Pawns Part 1](./PawnCode.md)
+6. [Pawns Part 2](./PawnPrefab.md)
 5. [Matches](./Match.md)
+
+
+

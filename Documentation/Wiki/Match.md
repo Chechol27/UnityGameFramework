@@ -1,38 +1,56 @@
-﻿## Match
+﻿# Match
 
 This framework is designed to abstract the game into a series of matches and non-matches, let's define these 2 core terms and their constraints:
 
-- Match: a scene or group of scenes that have a lifecycle and requires Players to control any kind of character (Pawn)
-- Non-Match: a scene or group of scenes that provide simple functionality, like a main menu, an intermediate loading screen or any other instance in which there is no need for any character to be cotnroller
+Match
+: a scene or group of scenes that have a lifecycle and requires Players to control any kind of character (Pawn)
+
+Non-Match
+: a scene or group of scenes that provide simple functionality, like a main menu, an intermediate loading screen or any other instance in which there is no need for any character to be cotnroller
 
 this means we can focus on the actual match gameplay "scene" that will define how our game behaves.
 
-First let's join the game rules with the match system syntax/workflow and let's start from the lifecycle:
+First I'll briefly explain how a match manages its lifecycle
 
-### A Match Lifecycle
+## A Match Lifecycle
 
 Each match has a pre-defined collection of lifecycle methods that are not entirely automatically managed:
-#### Managed
-- PlayerJoin
-    - Creates a controller object and its associated state
-- PlayerSpawn
-    - Spawns a pawn controlled by the designed controller
-- PlayerRemove
-    - Removes a pawn controlled by the designed controller
-- PlayerLeave
-    - Removes a controller from the match
-- Initialize
-    - This one is managed automatically, and it's called on Awake before all other objects in scene
-    - Join all players retrieved from your own systems (like photon if making an online game)
-#### Unmanaged
-- Start
-    - Starts the match (example: removing barriers in a tactical shooter or unlocking controls in a fighting game)
-- Arbitrate
-    - Checks if any of the conditions for the match to be ended are met (Example: checking if the red team has 200 points or testing whether the match timer is 0)
-- End
-    - Ends the match (Example: Removing controlled pawns and showing a scoreboard)
-- Finalize
-    - Finalizes the match (Example: Returning all players to a "lobby" scene)
+
+### Managed
+
+Lifecycle methods that already define some kind of logic and/or are automatically called
+
+PlayerJoin
+: Creates a controller object and its associated state
+
+PlayerSpawn
+: Spawns a pawn controlled by the designed controller 
+
+PlayerRemove
+: Removes a pawn controlled by the designed controller
+
+PlayerLeave
+: Removes a controller from the match
+
+Initialize 
+: This one is managed automatically, and it's called on Awake before all other objects in scene
+: Join all players retrieved from your own systems (like photon if making an online game)
+
+### Unmanaged
+
+Start
+: Starts the match (example: removing barriers in a tactical shooter or unlocking controls in a fighting game)
+
+Arbitrate
+: Checks if any of the conditions for the match to be ended are met (Example: checking if the red team has 200 points or testing whether the match timer is 0)
+
+End
+: Ends the match (Example: Removing controlled pawns and showing a scoreboard)
+
+Finalize
+: Finalizes the match (Example: Returning all players to a "lobby" scene)
+
+___
 
 Now let's create our own Match class specific to our needs:
 
@@ -46,7 +64,7 @@ public class PongMatch : GameMatch
 }
 ```
 
-now, a game match is too barebones because some matches maybe just a sandbox/spectate kind of "game", let's add game state and player state tracking capabilities
+now, a simple `GameMatch` is too barebones because some matches maybe just a sandbox/spectate kind of "game", let's add game state and player state tracking capabilities
 with the `IGameStateHandler<>` and `IPlayerStateHandler<>` interfaces and use our custom `GameState` and `PlayerState`
 classes as a type parameter
 
@@ -97,6 +115,23 @@ public override Pawn SpawnPlayer(int playerId, Pawn pawnPrefab = null, bool ditc
 }
 ```
 
+Also, we need to implement the logic we proposed on the [Game Modes](./GameMode.md) chapter, assign an action mapping
+depending on the player's ID
+
+```csharp
+public override Pawn SpawnPlayer(int playerId, Pawn pawnPrefab = null, bool ditchPreviousControlledPawn = true)
+{
+    Pawn ret = base.SpawnPlayer(playerId, pawnPrefab, ditchPreviousControlledPawn);
+    if (ret != null)
+    {
+        ret.Input.SwitchCurrentActionMap(((PongGameMode)GameMode).localPerPlayerInputMappings[playerId]);
+        OnGoalScored.AddListener(ret.ResetState);
+    }
+
+    return ret;
+}
+```
+
 Now let's start our match by spawning a pawn for each player, this will automatically enable our pawn inputs
 
 ```csharp
@@ -107,6 +142,15 @@ protected override void StartMatch()
     SpawnPlayer(1, GameMode.defaultPawnPrefab);
 }
 //...
+```
+
+and call `StartMatch` on unity's built in `Start` event function
+
+```csharp
+private void Start()
+{
+    StartMatch();
+}
 ```
 
 after the match has been initialized, there is only one thing to do for 
