@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cad51e5d796178341b79bc36194e8947, type: 3}
+  m_Name: PongGameMode
+  m_EditorClassIdentifier: 
+  defaultPawnPrefab: {fileID: 4230858606015998867, guid: 264fe9b5b5cea284fabbf00287d7ac4d, type: 3}
+  playerController: {fileID: 3928057790990157335, guid: 3517a91a2fadb4540b90de3c92f5ac62, type: 3}
+  ballPrefab: {fileID: 8847414610412760509, guid: d6ba6c84c8470df46a5a24c9291c1492, type: 3}
+  winScore: 8
+  timeLimitSeconds: 300
+  localPerPlayerInputMappings:
+  - Player1
+  - Player2

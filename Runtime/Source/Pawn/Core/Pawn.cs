@@ -19,7 +19,13 @@ namespace UnityGameFramework.Pawns.Core
             }
         }
 
-        public virtual void ResetState(){}
+        public virtual void Restart()
+        {
+            foreach (IPawnComponent pawnComponent in GetComponentsInChildren<IPawnComponent>())
+            {
+                pawnComponent.Restart();
+            }
+        }
         
         public virtual void OnControlled(Controller controller)
         {

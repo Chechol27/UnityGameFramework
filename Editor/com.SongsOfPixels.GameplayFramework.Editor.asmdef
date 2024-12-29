@@ -1,0 +1,16 @@
+{
+    "name": "com.SongsOfPixels.GameplayFramework.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:d0f2edbfc8c87f54595cd726ec6b6612"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

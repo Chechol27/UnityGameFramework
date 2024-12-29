@@ -1,0 +1,29 @@
+{
+    "name": "com.songsofpixels.gameplayframework",
+    "version": "1.0.0",
+    "displayName": "Gameplay Framework",
+    "description": "A comprehensive abstraction of a game's state and managers",
+    "unity": "6000.0",
+    "documentationUrl": "https://github.com/Chechol27/UnityGameFramework/blob/main/README.md",
+    "licensesUrl": "https://github.com/Chechol27/UnityGameFramework/blob/main/LICENSE",
+    "dependencies": {
+        "com.unity.inputsystem" : "1.11.2"
+    },
+    "keywords": [
+        "Gameplay",
+        "Framework",
+        "Game"
+    ],
+    "author": {
+        "name": "SongsOfPixels",
+        "email": "sergio.penaloa@gmail.com",
+        "url": "https://github.com/Chechol27"
+    },
+    "samples": [
+        {
+            "displayName": "Pong",
+            "description": "A simple Pong clone using the gameplay framework",
+            "path": "Samples~/Pong"
+        }
+    ]
+}

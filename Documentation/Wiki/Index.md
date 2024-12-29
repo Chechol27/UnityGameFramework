@@ -55,7 +55,3 @@ flowchart TB
     
     controller --controls--> pawn
 ```
-
-## Detailed Guide
-
-[here](./QuickStart.md) is a more detailed guide that illustrates the use of this framework by developing a _**Pong**_ clone

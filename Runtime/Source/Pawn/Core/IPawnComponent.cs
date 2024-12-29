@@ -10,5 +10,15 @@ namespace UnityGameFramework.Pawns.Core
             Debug.Log($"Registering parent pawn: {pawn}");
             ParentPawn = pawn;
         }
+
+        void Restart()
+        {
+            
+        }
+    }
+    
+    public interface IPawnComponent<out TPawn> : IPawnComponent where TPawn : Pawn
+    {
+        TPawn ParentPawn => ((IPawnComponent) this).ParentPawn as TPawn;
     }
 }

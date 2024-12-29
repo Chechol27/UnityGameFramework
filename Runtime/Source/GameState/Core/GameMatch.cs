@@ -7,6 +7,7 @@ using UnityGameFramework.Player.Core;
 
 namespace UnityGameFramework.Game.State.Core
 {
+    #pragma warning disable 0108
     /// <summary>
     /// Per-level Game match manager:
     /// Reads data and spawns the necessary initial actors into the game
@@ -43,7 +44,7 @@ namespace UnityGameFramework.Game.State.Core
                 desiredController.Control(pawn, ditchPreviousControlledPawn);
                 return pawn;
             }
-            catch (IndexOutOfRangeException outOfRangeException)
+            catch (IndexOutOfRangeException)
             {
                 Debug.LogError($"Player #{playerId} is invalid");
             }
@@ -59,7 +60,7 @@ namespace UnityGameFramework.Game.State.Core
                 Players[playerId].Release();
                 Destroy(pawn);
             }
-            catch (IndexOutOfRangeException outOfRangeException)
+            catch (IndexOutOfRangeException)
             {
                 Debug.LogError($"Player #{playerId} is invalid");
             }
@@ -77,8 +78,17 @@ namespace UnityGameFramework.Game.State.Core
         {
         }
 
+        protected virtual void ArbitrateMatch()
+        {
+        }
+
         protected virtual void EndMatch()
         {
+        }
+
+        protected virtual void FinalizeMatch()
+        {
+            
         }
 
         protected void Awake()
