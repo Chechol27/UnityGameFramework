@@ -27,6 +27,17 @@ namespace UnityGameFramework.Game.State.Core
         
         IPlayerStateHandler<TPlayerState> AsPlayerStateHandler { get; }
 
+        void PurgePlayerState(int playerId)
+        {
+            if (PlayerStates == null || PlayerStates.Count <= playerId)
+            {
+                return;
+            }
+            
+            Object.Destroy(PlayerStates[playerId]);
+            PlayerStates.RemoveAt(playerId);
+        }
+
         void SpawnPlayerState(int playerId)
         {
             GameObject playerStateGo = new GameObject($"Player {playerId} State");
