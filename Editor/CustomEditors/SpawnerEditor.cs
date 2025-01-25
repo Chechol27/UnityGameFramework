@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityGameFramework.Pawns.Core;
 
+#if UNITY_EDITOR
 namespace UnityGameFramework.EditorOnly
 {
     public class GameInstanceGizmoDrawer
@@ -50,3 +51,4 @@ namespace UnityGameFramework.EditorOnly
         
     }
 }
+#endif
