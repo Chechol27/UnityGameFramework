@@ -28,7 +28,7 @@ namespace UnityGameFramework.Player.Core
 
         public virtual void Release()
         {
-            ControlledPawn.OnReleased();
+            ControlledPawn?.OnReleased();
             ControlledPawn = null;
         }
     }

@@ -56,9 +56,11 @@ namespace UnityGameFramework.Game.State.Core
         {
             try
             {
-                Pawn pawn = Players[playerId].ControlledPawn;
+                Controller player = Players[playerId];
+                Pawn pawn = player.ControlledPawn;
                 Players[playerId].Release();
-                Destroy(pawn.gameObject);
+                if(pawn != null)
+                    Destroy(pawn.gameObject);
             }
             catch (IndexOutOfRangeException)
             {
